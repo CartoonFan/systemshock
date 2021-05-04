@@ -30,12 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "target.h"
 #include "colors.h"
-#include "newmfd.h"
 #include "mfdext.h"
+#include "mfdfunc.h"
 #include "mfddims.h"
 #include "tools.h"
 #include "objclass.h"
-#include "objprop.h"
 #include "objcrit.h"
 #include "objsim.h"
 #include "gamestrn.h"
@@ -45,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "combat.h"
 #include "wares.h"
 #include "strwrap.h"
-#include "ai.h"
 #include "aiflags.h"
 #include "visible.h"
 #include "fullscrn.h"
@@ -57,16 +55,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "gr2ss.h"
 
 #define sqr(x) ((x) * (x))
-
-// -------------
-//  PROTOTYPES
-// -------------
-void right_justify_num(char *num, int dlen);
-uchar iter_eligible_targets(ObjSpecID *sid);
-void select_closest_target(void);
-void toggle_current_target_backwards(void);
-void mfd_targetware_expose(MFD *mfd, ubyte control);
-uchar mfd_targetware_handler(MFD *m, uiEvent *e);
 
 // ==============================================
 //               TARGET MFD CODE
@@ -90,7 +78,6 @@ uchar mfd_targetware_handler(MFD *m, uiEvent *e);
 #define GET_DAMAGE_STRING(scl, dmg) (DAMAGE_STRING_BASE + (scl)*DAMAGE_DEGREES + (dmg))
 
 extern uchar full_game_3d;
-extern int mfd_bmap_id(int triple);
 
 #define PAGEBUTT_W 8
 #define PAGEBUTT_H 11
@@ -547,9 +534,6 @@ uchar mfd_target_handler(MFD *m, uiEvent *e) {
 //                 THE TARGET WARE ITEM MFD
 // ----------------------------------------------------------
 
-extern void mfd_item_micro_hires_expose(uchar full, int triple);
-extern void draw_mfd_item_spew(Ref id, int n);
-extern void mfd_item_micro_expose(uchar full, int triple);
 #define STRINGS_PER_WARE (REF_STR_wareSpew1 - REF_STR_wareSpew0)
 
 void mfd_targetware_expose(MFD *mfd, ubyte control) {

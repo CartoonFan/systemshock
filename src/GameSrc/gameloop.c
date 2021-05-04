@@ -25,9 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string.h>
 
+#include "Prefs.h"
+#include "cyber.h"
+#include "leanmetr.h"
 #include "mainloop.h"
 #include "wares.h"
-#include "hud.h"
 #include "ai.h"
 #include "physics.h"
 #include "gamesys.h"
@@ -39,21 +41,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "newmfd.h"
 #include "faketime.h"
 #include "invent.h"
-#include "grenades.h"
 #include "damage.h"
 #include "effect.h"
 #include "fullscrn.h"
 #include "tools.h"
 #include "olhext.h"
-
 #include "gamescr.h"
 #include "gamestrn.h"
 #include "cybstrng.h"
 #include "colors.h"
 #include "gr2ss.h"
 #include "game_screen.h"
-
-#include "Prefs.h"
+#include "sndcall.h"
 
 // ----------
 // GLOBALS
@@ -86,10 +85,7 @@ void draw_pause_string(void) {
 
 //------------------------------------------------------------------
 void game_loop(void) {
-    extern void update_meters(bool);
-    extern errtype check_cspace_death();
     extern uchar game_paused;
-    extern void sound_frame_update(void);
     // temp
     // extern char saveArray[16];
     // if (memcmp(0, saveArray, 16))

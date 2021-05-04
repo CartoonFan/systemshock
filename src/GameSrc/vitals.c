@@ -24,22 +24,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-#include <math.h>
-
 #include "player.h"
 #include "status.h"
 #include "tools.h"
-#include "colors.h"
-#include "newmfd.h"
 #include "gamescr.h"
 #include "citres.h"
 #include "gamesys.h"
-#include "textmaps.h"
 #include "fullscrn.h"
 
 #include "otrip.h"
 
-#include "gamesys.h"
 #include "gr2ss.h"
 
 // Defines
@@ -118,8 +112,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NO_SPIKE    0x01
 #define SPIKE_NOISE 0x02
 
-void status_vitals_start();
-void status_vitals_end();
 errtype draw_status_arrow(int x_coord, int y);
 void draw_status_bar(ushort x0, ushort x1, ushort cutoff, ushort y);
 

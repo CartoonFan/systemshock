@@ -29,21 +29,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mfdint.h"
 #include "mfdext.h"
 #include "mfddims.h"
+#include "mfdfunc.h"
 #include "objsim.h"
 #include "gamestrn.h"
 #include "tools.h"
 #include "objprop.h"
 #include "colors.h"
 #include "fullscrn.h"
-#include "cit2d.h"
 
-#include "mfdart.h"
 #include "gamescr.h"
 #include "otrip.h"
 #include "cybstrng.h"
 #include "gr2ss.h"
 
-void mfd_accesscard_expose(MFD *mfd, ubyte control);
 
 // ============================================================
 //                   ACCESS CARD MFD
@@ -71,7 +69,6 @@ void mfd_accesscard_expose(MFD *mfd, ubyte control) {
     }
     if (control & MFD_EXPOSE) // Time to draw stuff
     {
-        extern int mfd_bmap_id(int);
         int i;
         uint32_t lastbits = LAST_BITS(mfd->id);
         uint32_t bits = 0;

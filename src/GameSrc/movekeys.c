@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "player.h"
 #include "physics.h"
 #include "gamesys.h"
-#include "weapons.h"
 #include "movekeys.h"
 
 #define KEYBD_CONTROL_BANK 1
@@ -47,11 +46,6 @@ extern bool gKeypadOverride;
 uchar parse_motion_key(ushort code, short *cnum, short *cval);
 uchar parse_motion_key_cyber(ushort code, short *cnum, short *cval);
 void init_motion_polling(void);
-void setup_motion_polling(void);
-void process_motion_keys(void);
-uchar motion_keycheck_handler(uiEvent *ev, LGRegion *, intptr_t);
-
-extern void physics_set_relax(int axis, uchar relax);
 
 uchar parse_motion_key(ushort code, short *cnum, short *cval) {
     int i = 0, move = -1;

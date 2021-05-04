@@ -23,46 +23,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * $Date: 1994/11/26 03:16:18 $
  */
 
-#define __MUSICAI_SRC
-
 #include <string.h>
-#include <stdlib.h>
 
 #include "Shock.h"
 #include "Prefs.h"
 
+#include "airupt.h"
 #include "musicai.h"
 #include "MacTune.h"
 
-#include "ai.h"
-#include "faketime.h"
 #include "map.h"
 #include "mapflags.h"
 #include "player.h"
-#include "sfxlist.h"
 #include "tickcount.h"
 #include "tools.h"
 
 #include "adlmidi.h"
 #include "Xmi.h"
 
-/*
-#include <mainloop.h>
-#include <_audio.h>
-#include <_testing.h>
-#include <objects.h>
-#include <objcrit.h>
-#include <texttool.h>
-#include <otrip.h>
-#include <diginode.h>
-*/
 #ifdef AUDIOLOGS
 #include "audiolog.h"
 #endif
 
 //#include <ail.h>
-
-extern void grind_music_ai();
 
 uchar music_card = TRUE, music_on = FALSE;
 
@@ -94,12 +77,19 @@ int score_playing = 0;
 short curr_ramp_time, curr_ramp;
 char curr_prioritize, curr_crossfade;
 
-void musicai_clear();
-errtype mai_transition(int new_trans);
+int mlimbs_peril, mlimbs_positive, mlimbs_motion, mlimbs_monster;
+ulong mlimbs_combat;
+int current_score, current_zone, current_mode, random_flag;
+int current_transition, last_score;
+int boring_count;
+int mlimbs_boredom;
+int *output_table;
+uchar wait_flag;
+int next_mode, ai_cycle;
+int cur_digi_channels = 4;
 
-extern errtype make_request(int chunk_num, int piece_ID);
-extern int digifx_volume_shift(short x, short y, short z, short phi, short theta, short basevol);
-extern int digifx_pan_shift(short x, short y, short z, short phi, short theta);
+// extern int digifx_volume_shift(short x, short y, short z, short phi, short theta, short basevol);
+// extern int digifx_pan_shift(short x, short y, short z, short phi, short theta);
 extern uchar mai_semaphor;
 
 uchar park_random = 75;
@@ -130,9 +120,6 @@ char mlimbs_machine = 0;
 //------------------
 //  INTERNAL PROTOTYPES
 //------------------
-errtype musicai_shutdown();
-errtype musicai_reset(uchar runai);
-int gen_monster(int monster_num);
 
 errtype musicai_shutdown() {
     int i;
@@ -158,8 +145,7 @@ void musicai_clear() {
 }
 
 void mlimbs_do_ai() {
-    //   extern uchar mlimbs_semaphore;
-    extern errtype check_asynch_ai(uchar new_score_ok);
+    // extern uchar mlimbs_semaphore;
     extern ObjID damage_sound_id;
     extern char damage_sound_fx;
 

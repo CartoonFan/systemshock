@@ -36,24 +36,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "status.h"
 #include "player.h"
 #include "tools.h"
-#include "colors.h"
-#include "mainloop.h"
-#include "gameloop.h"
-#include "newmfd.h"
 #include "gamescr.h"
 #include "faketime.h"
 #include "fullscrn.h"
-#include "citres.h"
 #include "gamesys.h"
 #include "physics.h"
 #include "objsim.h"
 #include "biotrax.h"
-#include "statics.h"
 #include "otrip.h"
 
 #include "curdat.h"
 
-#include "gamesys.h"
 #include "gr2ss.h"
 
 // Defines
@@ -205,18 +198,17 @@ void ss_save_under_set_pixel(int color, short i, short j);
 void bio_set_pixel(int color, short x, short y);
 void bio_restore_pixel(grs_bitmap *bmp, short x, short y);
 void bio_vline(int color, int x, int y, int y1);
-void status_bio_update_screenmode();
 uchar status_track_free(int track);
 uchar status_track_active(int track);
 void status_track_activate(int track, uchar active);
 void draw_lower_tracks(int track_number, int location);
-void gamescr_bio_func(void);
-void diff_bio_func(void);
 void draw_one_location_tracks(int location);
 void draw_bio_height(int track_number, int draw_location);
 errtype clear_bio_tracks(void);
 void clear_tail(int track_number, int delete_location);
 int FIND_OVERLAP(int x, int y);
+
+void change_bio_vars(void);
 
 void (*bio_funcs[])(void) = {gamescr_bio_func, diff_bio_func};
 
@@ -515,7 +507,6 @@ errtype clear_bio_tracks() {
     return (OK);
 }
 
-extern void change_bio_vars(void);
 
 //#define FIND_OVERLAP(x,y) (((x) - y + STATUS_BIO_LENGTH) % STATUS_BIO_LENGTH)
 int FIND_OVERLAP(int x, int y) { return (((x)-y + STATUS_BIO_LENGTH) % STATUS_BIO_LENGTH); }

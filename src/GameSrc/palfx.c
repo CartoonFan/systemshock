@@ -25,10 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <string.h>
-#include "init.h"
-#include "palfx.h"
-
 #include <SDL.h>
+
+#include "Shock.h"
+#include "palfx.h"
+#include "sdl_events.h"
+
 
 byte pal_fade_id;
 byte cyc_id0, cyc_id1, cyc_id2, cyc_id3, cyc_id4, cyc_id5;
@@ -43,9 +45,6 @@ static Uint32 FadeStartTicks;
 
 extern uchar ppall[]; // pointer to main shadow palette
 
-// Internal Prototypes
-void finish_pal_effect(byte id);
-byte palfx_start_fade_up(uchar *new_pal);
 
 //-------------------------------------
 void finish_pal_effect(byte id) {
@@ -63,10 +62,7 @@ void finish_pal_effect(byte id) {
         }
 
         // Update the screen
-        extern void SDLDraw(void);
         SDLDraw();
-
-        void pump_events(void);
         pump_events();
     }
 }
@@ -88,8 +84,6 @@ void palfx_fade_down() {
 
     id = palette_install_fade(REAL_TIME, 0, 255, FADE_DOWN_DELAY, FADE_DOWN_STEPS, savep, blackp);
     finish_pal_effect(id);
-
-    return;
 }
 
 //-------------------------------------

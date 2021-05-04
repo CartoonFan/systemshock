@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "frprotox.h"
 #include "gamescr.h"
 
-//Â¥Â¥#include <inp6d.h>
 
 #ifdef STEREO_SUPPORT
 #include <i6dvideo.h>
@@ -49,9 +48,6 @@ fix inv_convert_y[MAX_CONVERT_TYPES][MAX_USE_MODES];
 #define SVGA_CONV_SCREEN 2
 
 // Internal prototypes
-uchar perform_svga_conversion(uchar mask);
-void ss_scale_string(char *s, short x, short y);
-void mouse_unconstrain(void);
 
 uchar perform_svga_conversion(uchar mask) {
     extern uchar full_game_3d;

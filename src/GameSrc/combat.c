@@ -24,27 +24,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-#define __COMBAT_C
-
-#include <stdio.h>
-#include <string.h>
-
 #include "combat.h"
 #include "objsim.h"
 #include "objprop.h"
-#include "damage.h"
-#include "game_screen.h"
 #include "tools.h"
 #include "effect.h"
 #include "otrip.h"
-#include "fullscrn.h"
 
-#include "gameloop.h"
 #include "mainloop.h"
 #include "player.h"
 
 #include "frtypes.h"
-#include "frprotox.h"
 #include "cybrnd.h"
 #include "physunit.h"
 
@@ -54,10 +44,8 @@ ObjID terrain_hit_exclusion = OBJ_NULL;
 
 ObjID simple_ray_caster(Combat_Ray *ray);
 
-extern void test_object_link(void);
-
-extern physics_handle ray_cast_wrapper(fix X[3], fix D[3], fix speed, fix mass, fix size, fix range,
-                                       physics_handle exclusion);
+physics_handle ray_cast_wrapper(fix X[3], fix D[3], fix speed, fix mass, fix size, fix range,
+                                physics_handle exclusion);
 
 physics_handle ray_cast_wrapper(fix X[3], fix D[3], fix speed, fix mass, fix size, fix range,
                                 physics_handle exclusion) {

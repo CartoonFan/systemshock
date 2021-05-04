@@ -29,14 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mfdint.h"
 #include "mfdext.h"
 #include "mfddims.h"
-#include "objapp.h"
 #include "tools.h"
 #include "mfdart.h"
 #include "gamestrn.h"
 #include "cybstrng.h"
 #include "objuse.h"
 #include "objbit.h"
-#include "cit2d.h"
 #include "fullscrn.h"
 #include "gr2ss.h"
 
@@ -62,8 +60,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TEXT_COLOR 0x4C
 
-extern void check_panel_ref(uchar punt);
-
 typedef struct _fixture_data {
     ObjID last_obj;
     uchar last_state;
@@ -72,11 +68,6 @@ typedef struct _fixture_data {
 #define MFD_FIXTURE_DATA(lr) ((fixture_data *)&mfd_fdata[MFD_FIXTURE_FUNC][lr * 3])
 #define FIXTURE_STATE (mfd_fdata[MFD_FIXTURE_FUNC][7])
 
-// ----------
-//  PROTOTYPES
-// ----------
-void mfd_fixture_expose(MFD *mfd, ubyte control);
-uchar mfd_fixture_handler(MFD *m, uiEvent *e);
 
 // ---------------
 // EXPOSE FUNCTION

@@ -27,14 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string.h>
 
-#include "ShockDialogs.h"
-
 #include "textmaps.h"
 #include "gettmaps.h"
 #include "tools.h"
 #include "frprotox.h"
 #include "cybmem.h"
-#include "criterr.h"
 #include "citres.h"
 #include "rendtool.h"
 #include "objects.h"
@@ -44,12 +41,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "OpenGL.h"
 
-//#include <mprintf.h>
-//#include <dpaths.h>
-//#include <config.h>
-//#include <_gfx.h>
-//#include <_system.h>
-//#include <_lg.h>
 
 uchar textures_loaded = FALSE;
 
@@ -63,18 +54,9 @@ extern uchar tmap_big_buffer[];
 
 // prototypes
 uchar set_animations(short start, short frames, uchar *anim_used);
-errtype load_small_texturemaps(void);
 void setup_tmap_bitmaps(void);
-void free_textures(void);
-errtype load_master_texture_properties(void);
-errtype unload_master_texture_properties(void);
-errtype clear_texture_properties(void);
 errtype texture_crunch_init(void);
 errtype texture_crunch_go(void);
-void load_textures(void);
-
-extern void FlipShort(short *sh);
-extern void FlipLong(long *lng);
 
 #define SET_ANIM_USED(x) anim_used[(x) >> 3] |= (1 << ((x)&0x7))
 #define CHECK_ANIM_USED(x) anim_used[(x) >> 3] & (1 << ((x)&0x7))

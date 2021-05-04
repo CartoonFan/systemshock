@@ -32,11 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <stdlib.h>
 
-#include <stdio.h> // for FILE for now
-
 #include "map.h"
 #include "mapflags.h"
-#include "objects.h" // for ClearDealt
 #include "frintern.h"
 #include "frtables.h"
 #include "tilename.h"
@@ -44,8 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "frflags.h"
 #include "frquad.h"
 #include "frsubclp.h"
+#include "rendtool.h"
 #include "textmaps.h" // pain, sadness
-#include "star.h"
 
 #define FLIP_BITS
 
@@ -136,7 +133,6 @@ static void (*_fr_parse_obj)(void);
 #else
 #define IsTpropNotStars() (_game_fr_tmap >= 4)
 #endif
-extern uchar draw_tmap_p(int ptcnt);
 #define quik_draw_tmap_p(ptcnt) ((IsTpropNotStars()) || (draw_tmap_p(ptcnt)))
 //#define quik_draw_tmap_p(ptcnt) (TRUE)
 

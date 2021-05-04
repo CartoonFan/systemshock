@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <string.h>
-//#include <TextUtils.h>
 
 #include "popups.h"
 #include "citres.h"
@@ -76,7 +75,6 @@ void make_popup_cursor(LGCursor *c, grs_bitmap *bm, char *s, uint tmplt, uchar a
     uchar old_over = gr2ss_override;
     uchar *bptr;
     uchar *bits = bm->bits;
-    extern void ss_scale_string(char *s, short x, short y);
 
     MouseLock++;
     *bm = *pbm;

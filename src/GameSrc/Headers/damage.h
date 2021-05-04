@@ -87,13 +87,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MAX_DESTROYED_OBJS 100
 
-#ifdef __COMBAT_C
-short destroyed_obj_count = 0;
-ObjID destroyed_ids[MAX_DESTROYED_OBJS];
-#else
 extern short destroyed_obj_count;
 extern ObjID destroyed_ids[MAX_DESTROYED_OBJS];
-#endif
 
 #define ADD_DESTROYED_OBJECT(X) (destroyed_ids[destroyed_obj_count++] = X)
 
@@ -143,5 +138,9 @@ int get_damage_estimate(ObjSpecID osid);
 void spew_object_specs(void);
 uchar test_object_specs(short keycode, ulong context, void *data);
 uchar damage_player(int damage, ubyte dtype, ubyte flags);
+uchar kill_player(void);
+void regenerate_player(void);
+
+void slow_proj_hit(ObjID id, ObjID victim);
 
 #endif // __DAMAGE_H

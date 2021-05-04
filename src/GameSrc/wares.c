@@ -29,13 +29,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wares.h"
 #include "hud.h"
 #include "player.h"
+#include "email.h"
+#include "gamerend.h"
 #include "gamesys.h"
+#include "mfdgames.h"
 #include "sideicon.h"
 #include "newmfd.h"
 #include "cybstrng.h"
 #include "gamestrn.h"
 #include "textmaps.h"
-#include "render.h"
 #include "frparams.h"
 #include "FrUtils.h"
 #include "objsim.h"
@@ -46,11 +48,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "sfxlist.h"
 #include "objbit.h"
 #include "objprop.h"
+#include "plotware.h"
+#include "target.h"
 #include "tools.h"
 #include "faketime.h"
+#include "view360.h"
 #include "weapons.h"
-#include "fullscrn.h"
-#include "mainloop.h"
 #include "map.h"
 #include "physics.h"
 #include "softdef.h"
@@ -60,12 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------
 //  Internal Prototypes
 //----------------
-uchar is_passive_hardware(int n);
-bool is_oneshot_misc_software(int n);
-int energy_cost(int warenum);
-void hardware_closedown(uchar visible);
-void hardware_startup(uchar visible);
-void hardware_power_outage(void);
 bool check_game(void);
 
 // ------
@@ -154,6 +151,7 @@ void use_ware(int waretype, int num) {
     WARE *wares;
     int n, ecost;
     int ware_sfx = SFX_NONE, hnd;
+
     //   int   i;
     //   ubyte invtype;
     if ((!global_fullmap->cyber != (waretype == 0))  // boolean equality, yum.
@@ -326,6 +324,21 @@ int get_player_ware_version(int type, int n) {
 }
 
 // ---------------------------------------------------------------------------
+// hw_hotkey_callback()
+//
+// The callback for the hardware buttons when triggered throug hotkeys
+
+uchar hw_hotkey_callback(ushort keycode, uint32_t context, intptr_t data) {
+    int wareType = WARE_HARD;
+    int wareNum = (int) data;
+    if (get_player_ware_version(wareType, wareNum)) {
+        use_ware(wareType, wareNum);
+    }
+
+    return TRUE;
+}
+
+// ---------------------------------------------------------------------------
 // wares_update()
 //
 // Called from the main loop, this routine cycles through all active wares
@@ -479,9 +492,7 @@ void targeting_turnoff(uchar visible, uchar real_start);
 // targeting_turnon()
 //
 // Turn on the targeting ware
-
 void targeting_turnon(uchar visible, uchar real_start) {
-    extern void select_closest_target();
 
     player_struct.hardwarez_status[CPTRIP(TARG_GOG_TRIPLE)] &= ~WARE_ON;
     if (visible && real_start) {
@@ -498,15 +509,9 @@ void targeting_turnon(uchar visible, uchar real_start) {
 
 void targeting_turnoff(uchar visible, uchar real_s) { }
 
-// -------------------------------------------------------
+// ----------------
 //  LANTERN WARE
 // ---------------
-void lamp_set_vals(void);
-void lamp_set_vals_with_offset(byte offset);
-void lamp_turnon(uchar visible, uchar real_start);
-void lamp_change_setting(byte offset);
-void lamp_turnoff(uchar visible, uchar real_stop);
-uchar lantern_change_setting_hkey(ushort keycode, uint32_t context, intptr_t data);
 
 struct _lampspec {
     int rad1;
@@ -612,16 +617,11 @@ uchar lantern_change_setting_hkey(ushort key, uint32_t context, intptr_t data) {
 //--------------------------
 // SHIELD WARE
 //--------------------------
-void shield_set_absorb(void);
-void shield_toggle(uchar visible, uchar real);
-uchar shield_change_setting_hkey(ushort keycode, uint32_t context, intptr_t data);
 
 #define SHIELD_IDX (CPTRIP(SHIELD_HARD_TRIPLE))
 
 ubyte shield_absorb_rates[] = {20, 40, 75, 75};
 ubyte shield_thresholds[] = {0, 10, 15, 30};
-
-extern void set_shield_raisage(uchar going_up);
 
 void shield_set_absorb(void) {
     ubyte s = player_struct.hardwarez_status[SHIELD_IDX];
@@ -732,10 +732,6 @@ void motionware_turnon(uchar visible, uchar real) { motionware_update(visible, r
 
 void motionware_turnoff(uchar visible, uchar real) { motionware_update(visible, real, FALSE); }
 
-// ---------------------
-//    JUMP JET WARE
-// ---------------------
-void activate_jumpjets(fix *xcntl, fix *ycntl, fix *zcntl);
 
 static short jumpjet_controls[] = {-25, -50, -75};
 static fix jumpjet_thrust_scales[] = {FIX_UNIT / 64, FIX_UNIT / 32, FIX_UNIT / 16};
@@ -790,13 +786,6 @@ void fullscreen_turnoff(uchar visible, uchar real_s) {
 //-----------------------
 //   CYBERSPACE ONESHOTS
 //-----------------------
-void do_turbo_stuff(uchar from_drug);
-void turbo_turnon(uchar visible, uchar real_start);
-void turbo_turnoff(uchar visible, uchar real_start);
-void fakeid_turnon(uchar visible, uchar real_start);
-void decoy_turnon(uchar visible, uchar real_start);
-void decoy_turnoff(uchar visible, uchar real_stop);
-void recall_turnon(uchar visible, uchar real_start);
 
 void do_turbo_stuff(uchar from_drug) {
     if (cspace_effect_times[CS_TURBO_EFF] == 0) {
@@ -875,12 +864,6 @@ void recall_turnon(uchar visible, uchar real_start) {
 // =================
 // THE STATIC ARRAYS
 
-extern void view360_turnon(uchar visible, uchar real_start), view360_turnoff(uchar visible, uchar real_start);
-extern bool view360_check();
-extern void email_turnon(uchar visible, uchar real_start);
-extern void email_turnoff(uchar visible, uchar real_start);
-extern void plotware_turnon(uchar visible, uchar real_start);
-
 WARE HardWare[NUM_HARDWAREZ] = {
     //"infrared"
     {WARE_FLAGS_NONE, SI_SIXTH, infrared_turnon, NULL, infrared_turnoff, NULL},
@@ -953,7 +936,6 @@ short energy_cost_vec[NUM_HARDWAREZ][MAX_VERSIONS] = {
 };
 
 bool check_game(void) { return (!global_fullmap->cyber); }
-extern void mfd_games_turnon(uchar, uchar real_s), mfd_games_turnoff(uchar, uchar real_s);
 
 WARE Combat_SoftWare[NUM_COMBAT_SOFTS];
 WARE Defense_SoftWare[NUM_DEFENSE_SOFTS];

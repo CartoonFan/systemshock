@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "objload.h"
 #include "player.h"
 #include "objart.h"
-#include "objbit.h"
 #include "citres.h"
 #include "treasure.h"
 #include "otrip.h"
@@ -163,7 +162,6 @@ errtype obj_load_art(uchar flush_all) {
     short objart_count = 0, count_3d = 0;
     int objfnum;
     short i, f;
-    extern uchar empty_bitmap(grs_bitmap * bmp);
     uchar ref_buffer_used = TRUE;
 
     if (flush_all)

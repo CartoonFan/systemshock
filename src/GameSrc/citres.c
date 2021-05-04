@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * $Date: 1994/11/07 13:22:58 $
  *
  */
-#include <assert.h>
+
 #include <string.h>
 
 #include "citres.h"
@@ -153,7 +153,6 @@ errtype simple_load_res_bitmap(grs_bitmap *bmp, Ref rid) { return load_res_bitma
 errtype load_res_bitmap_cursor(LGCursor *c, grs_bitmap *bmp, Ref rid, uchar alloc) {
     errtype retval = OK;
     LGRect anchor;
-    extern int memcount;
 
 #ifdef SVGA_SUPPORT
     short w, h;

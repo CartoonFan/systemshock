@@ -27,13 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Memory management and manipulation functions
 // for Cyberia
 #define __CYBMEM_SRC
-//#include "ShockDialogs.h"
 
 #include "cybmem.h"
 #include "tools.h"
-#include "objsim.h"
-#include "objclass.h"
-#include "objprop.h"
 #include "textmaps.h"
 #include "objcrit.h"
 #include "dynmem.h"
@@ -42,19 +38,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "criterr.h"
 #include "OpenGL.h"
 
-/*
-#include <memstat.h>
-#include <ckpoint.h>
-#include <keydefs.h>
-#include <musicai.h>       // for stop_digi_fx()
-*/
 uint32_t loadcount = 0;
 
 extern Id critter_id_table[NUM_CRITTER][NUM_CRITTER_POSTURES];
 extern Id posture_bases[];
-
-extern void free_textures(void);
-int flush_resource_cache(void);
 
 int hand_fnum, digi_fnum, critter_fnum, critter_fnum2, texture_fnum;
 

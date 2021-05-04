@@ -58,8 +58,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <string.h>
 
-#define __FRPIPE_SRC
-
 #include "map.h"
 #include "mapflags.h"
 #include "frsubclp.h"
@@ -75,8 +73,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "refstuf.h"
 
 #include "OpenGL.h"
-
-//#include <mprintf.h>
 
 // tell me tell me what you're after
 // cause i just want to get there faster
